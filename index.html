@@ -3,964 +3,1035 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Your Name — Computer Science Portfolio</title>
+<title>Bereket Asrat — Computer Science Student & Developer</title>
+<meta name="description" content="Portfolio of Bereket Asrat, third-year Computer Science student at Bule Hora University. Building software with C++, Java, and the modern web." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a3a4a'/%3E%3Ctext x='50' y='66' font-family='Inter,sans-serif' font-size='52' font-weight='800' fill='%23f0c419' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
 <style>
-  /* ================= RESET & BASE ================= */
-  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ====================================================
+     RESET & TOKENS
+     ==================================================== */
+  *,*::before,*::after{ box-sizing: border-box; margin: 0; padding: 0; }
   :root{
     --bg-1:#0a3a4a;
     --bg-2:#0d4a5c;
     --bg-3:#072a36;
     --ink:#ffffff;
     --ink-dim:#cfe0e6;
-    --accent:#f0c419;        /* warm yellow accent */
-    --accent-2:#5bc0eb;      /* sky blue */
-    --line:rgba(255,255,255,.14);
-    --card:#0f4a5e;
-    --card-2:#ffffff;
+    --ink-mute:#8faab2;
+    --accent:#f0c419;
+    --accent-2:#5bc0eb;
+    --success:#22c55e;
+    --line:rgba(255,255,255,.12);
+    --line-strong:rgba(255,255,255,.2);
+    --card:rgba(255,255,255,.04);
+    --card-hover:rgba(255,255,255,.07);
     --shadow: 0 30px 60px -20px rgba(0,0,0,.55);
+    --radius: 14px;
+    --radius-lg: 22px;
   }
+  html{ scroll-behavior: smooth; }
   html,body{ height:100%; }
   body{
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: var(--ink);
     background:
-      radial-gradient(1200px 600px at 20% -10%, rgba(91,192,235,.15), transparent 60%),
-      radial-gradient(1000px 500px at 90% 110%, rgba(240,196,25,.10), transparent 60%),
+      radial-gradient(1200px 600px at 20% -10%, rgba(91,192,235,.12), transparent 60%),
+      radial-gradient(1000px 500px at 90% 110%, rgba(240,196,25,.08), transparent 60%),
       linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
   }
   a{ color: inherit; text-decoration: none; }
   button{ font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  img{ max-width: 100%; display: block; }
 
-  /* ================= HERO ================= */
-  .hero{
-    position: relative;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 80px 32px 40px;
-    text-align: center;
-  }
-  .hero .eyebrow{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    background: rgba(255,255,255,.04);
-    backdrop-filter: blur(6px);
-  }
-  .hero .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
-  .hero h1{
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    font-size: clamp(40px, 6vw, 76px);
-    line-height: 1.05;
-    letter-spacing: -.02em;
-    margin: 18px 0 8px;
-  }
-  .hero h1 .sub{
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: clamp(18px, 2vw, 24px);
-    color: var(--ink-dim);
-    letter-spacing: 0;
-    margin-top: 14px;
-  }
-  .hero .meta{
-    display: flex;
-    justify-content: center;
-    gap: 26px;
-    margin-top: 22px;
-    font-size: 13px;
-    color: var(--ink-dim);
-    flex-wrap: wrap;
-  }
-  .hero .meta span{ display:inline-flex; align-items:center; gap:8px; }
-  .hero .meta svg{ width:14px; height:14px; opacity:.8; }
-
-  /* ================= STAGE / MONITOR ================= */
-  .stage{
-    position: relative;
-    max-width: 1280px;
-    margin: 50px auto 0;
-    padding: 0 32px 40px;
-  }
-  .stage::before{
-    content:"";
-    position:absolute; inset: 30% -10% 10% -10%;
-    background: radial-gradient(closest-side, rgba(91,192,235,.25), transparent 70%);
-    filter: blur(40px);
-    z-index: 0;
-  }
-
-  /* Floating page cards behind the monitor */
-  .floating-page{
-    position: absolute;
-    width: 320px;
-    background: linear-gradient(180deg, #ffffff 0%, #f3f8fa 100%);
-    border-radius: 18px;
-    box-shadow: 0 25px 50px -15px rgba(0,0,0,.45);
-    color: #1d2a30;
-    overflow: hidden;
-    z-index: 1;
-    transition: transform .4s ease;
-  }
-  .floating-page:hover{ transform: translateY(-6px) rotate(0deg) !important; }
-  .floating-page .ribbon{
-    height: 90px;
-    background: linear-gradient(135deg, #0a3a4a 0%, #1a5a72 100%);
-    position: relative;
-  }
-  .floating-page .ribbon::after{
-    content:""; position:absolute; left:0; right:0; bottom:0; height:30px;
-    background: #f3f8fa; border-radius: 18px 18px 0 0;
-  }
-  .floating-page .avatar{
-    width:64px; height:64px; border-radius:50%;
-    position:absolute; left:24px; top:50px;
-    background: linear-gradient(135deg, #5bc0eb, #0a3a4a);
-    border: 4px solid #f3f8fa;
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-weight:700; font-size:20px;
-  }
-  .floating-page .body{ padding: 46px 22px 22px; }
-  .floating-page h3{ font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-  .floating-page p{ font-size: 12.5px; line-height: 1.55; color: #4a5a62; }
-  .fp-left  { left: 0;    top: 60px;  transform: rotate(-3deg); }
-  .fp-right { right: 0;   top: 80px;  transform: rotate(3deg); }
-
-  /* The monitor */
-  .monitor{
-    position: relative;
-    width: min(820px, 92%);
-    margin: 0 auto;
-    z-index: 2;
-  }
-  .monitor .bezel{
-    background: linear-gradient(180deg, #f6f8f9 0%, #d8dde0 100%);
-    border-radius: 18px;
-    padding: 18px 18px 28px;
-    box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.8);
-    position: relative;
-  }
-  .monitor .bezel::after{
-    content:""; position:absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
-    width: 120px; height: 8px; background: #c8ced1; border-radius: 0 0 12px 12px;
-  }
-  .monitor .screen{
-    aspect-ratio: 16/10;
-    background: linear-gradient(160deg, #0a3a4a 0%, #134e62 100%);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.4);
-  }
-  .monitor .stand{
-    width: 200px; height: 28px; margin: 0 auto;
-    background: linear-gradient(180deg, #d8dde0, #b9c0c4);
-    border-radius: 0 0 12px 12px;
-  }
-  .monitor .base{
-    width: 320px; height: 8px; margin: 0 auto;
-    background: linear-gradient(180deg, #b9c0c4, #8d9499);
-    border-radius: 4px;
-  }
-
-  /* ===== Inner screen content (the actual portfolio) ===== */
-  .screen-inner{
-    position: absolute; inset: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    color: #fff;
-    font-size: 12px;
-  }
-  .screen-inner .left{
-    padding: 26px 22px;
-    display: flex; flex-direction: column;
-  }
-  .screen-inner .signature{
-    font-family: 'Playfair Display', cursive;
-    font-style: italic;
-    font-size: 22px;
-    color: #fff;
-    line-height: 1;
-  }
-  .screen-inner .signature small{
-    display:block;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-size: 9px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: #cfe0e6;
-    margin-top: 4px;
-  }
-  .screen-inner .contact{
-    margin-top: 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: #cfe0e6;
-    line-height: 1.7;
-  }
-  .screen-inner .contact .l{ color: #5bc0eb; }
-  .screen-inner .role{
-    margin-top: 14px;
-    font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-    color: #cfe0e6;
-  }
-  .screen-inner .role b{
-    display: block; color: #fff; font-size: 13px; letter-spacing: .12em; margin-top: 4px;
-  }
-  .screen-inner .cta{
-    margin-top: 14px;
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 12px; border-radius: 999px;
-    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
-    font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
-    align-self: flex-start;
-  }
-  .screen-inner .right{
-    position: relative;
-    background:
-      radial-gradient(circle at 50% 60%, rgba(91,192,235,.25), transparent 60%);
-  }
-  .screen-inner .right::before{
-    content:""; position:absolute; inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
-    background-size: 24px 24px;
-    mask-image: radial-gradient(circle at 60% 55%, #000 30%, transparent 70%);
-  }
-  .bubble-cluster{
-    position: absolute; right: 14px; top: 14px; width: 65%;
-  }
-  .bubble{
-    position: absolute;
-    width: 30px; height: 30px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--accent); color: #0a3a4a;
-    box-shadow: 0 6px 14px rgba(0,0,0,.3);
-    font-size: 14px; font-weight: 700;
-  }
-  .bubble.b{ background: #5bc0eb; }
-  .bubble.c{ background: #fff; color:#0a3a4a; }
-  .bubble.s{ width:22px; height:22px; font-size:11px; }
-  .screen-figure{
-    position: absolute; left: 18px; bottom: 12px; width: 90px; height: 110px;
-  }
-  .screen-figure .head{
-    width: 26px; height: 26px; border-radius: 50%;
-    background: #f1c27d; margin: 0 auto;
-  }
-  .screen-figure .body-shape{
-    width: 50px; height: 70px; margin: 4px auto 0;
-    background: linear-gradient(180deg, #1a5a72, #0a3a4a);
-    border-radius: 18px 18px 8px 8px;
-    position: relative;
-  }
-  .screen-figure .body-shape::after{
-    content:""; position:absolute; left:50%; top:-6px; transform:translateX(-50%);
-    width: 22px; height: 10px; background: #f1c27d; border-radius: 4px;
-  }
-
-  /* ================= CATEGORY ROW ================= */
-  .categories{
-    position: relative;
-    z-index: 3;
-    margin: 60px auto 0;
-    display: flex; justify-content: center; gap: 18px;
-    flex-wrap: wrap;
-  }
-  .cat{
-    width: 64px; height: 64px; border-radius: 50%;
-    background: linear-gradient(180deg, #fff, #e6eef2);
-    color: #0a3a4a;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 12px 24px -8px rgba(0,0,0,.5);
-    transition: transform .25s ease, box-shadow .25s ease;
-    position: relative;
-  }
-  .cat:hover{ transform: translateY(-6px); box-shadow: 0 20px 30px -8px rgba(0,0,0,.6); }
-  .cat svg{ width: 28px; height: 28px; }
-  .cat .tooltip{
-    position: absolute; bottom: -34px; left: 50%; transform: translateX(-50%);
-    background: #fff; color: #0a3a4a; font-size: 11px; font-weight: 600;
-    padding: 5px 10px; border-radius: 6px; white-space: nowrap;
-    opacity: 0; pointer-events: none; transition: opacity .2s ease;
-  }
-  .cat:hover .tooltip{ opacity: 1; }
-  .cat .tooltip::before{
-    content:""; position:absolute; top:-4px; left:50%; transform:translateX(-50%) rotate(45deg);
-    width: 8px; height: 8px; background: #fff;
-  }
-
-  /* ================= UPVOTE ================= */
-  .upvote-bar{
-    margin: 60px auto 0;
-    display: flex; justify-content: center; align-items: center;
-    gap: 14px;
-  }
-  .upvote{
-    display: flex; align-items: center;
-    background: #fff; color: #0a3a4a;
-    border-radius: 999px; padding: 6px 18px 6px 6px;
-    box-shadow: 0 20px 40px -15px rgba(0,0,0,.5);
-    font-weight: 600; font-size: 14px;
-    transition: transform .2s ease;
-  }
-  .upvote:hover{ transform: scale(1.04); }
-  .upvote .avatar{
-    width: 36px; height: 36px; border-radius: 50%;
-    background: linear-gradient(135deg, #5bc0eb, #0a3a4a);
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-weight:700; margin-right: 12px;
-  }
-  .upvote .label{ margin-right: 14px; }
-  .upvote .arrow{
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #eef4f7; display:flex; align-items:center; justify-content:center;
-    margin-right: 8px; transition: background .2s ease;
-  }
-  .upvote .arrow:hover{ background: var(--accent); }
-  .upvote .arrow svg{ width: 14px; height: 14px; }
-  .upvote .count{ font-weight: 700; min-width: 14px; text-align: center; }
-
-  /* ================= DETAIL SECTIONS ================= */
-  .section{
-    max-width: 1100px; margin: 100px auto 0; padding: 0 32px;
-  }
-  .section .label{
+  /* ====================================================
+     LAYOUT HELPERS
+     ==================================================== */
+  .container{ max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .section{ padding: 100px 0; }
+  .section-head{ max-width: 720px; margin-bottom: 56px; }
+  .section-head .label{
     display:inline-block; font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--accent); font-weight: 600; margin-bottom: 12px;
+    color: var(--accent); font-weight: 600; margin-bottom: 14px;
   }
-  .section h2{
+  .section-head h2{
     font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 44px);
+    font-size: clamp(32px, 4.2vw, 48px);
     font-weight: 800;
     letter-spacing: -.01em;
-    margin-bottom: 18px;
+    line-height: 1.1;
+    margin-bottom: 16px;
   }
-  .section p.lead{ color: var(--ink-dim); max-width: 700px; line-height: 1.7; font-size: 15px; }
+  .section-head p{ color: var(--ink-dim); font-size: 16px; line-height: 1.7; }
 
-  /* Projects */
-  .grid{
-    display: grid; gap: 22px;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    margin-top: 40px;
+  /* ====================================================
+     NAVBAR
+     ==================================================== */
+  .nav{
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 0;
+    background: rgba(7, 42, 54, 0.6);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid transparent;
+    transition: background .25s ease, border-color .25s ease, padding .25s ease;
   }
-  .card{
-    background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    overflow: hidden;
-    backdrop-filter: blur(6px);
-    transition: transform .3s ease, border-color .3s ease;
+  .nav.scrolled{
+    background: rgba(7, 42, 54, 0.85);
+    border-bottom-color: var(--line);
+    padding: 12px 0;
   }
-  .card:hover{ transform: translateY(-6px); border-color: rgba(91,192,235,.5); }
-  .card .thumb{
-    aspect-ratio: 16/10;
-    background: linear-gradient(135deg, #0a3a4a, #1a5a72);
-    position: relative; overflow: hidden;
+  .nav-inner{
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
   }
-  .card .thumb::before{
-    content:""; position:absolute; inset:0;
-    background-image:
-      linear-gradient(rgba(91,192,235,.18) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(91,192,235,.18) 1px, transparent 1px);
-    background-size: 18px 18px;
-    opacity: .35;
+  .logo{
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 16px; letter-spacing: -.01em;
   }
-  .card .thumb .tag{
-    position: absolute; top: 14px; left: 14px;
-    background: rgba(255,255,255,.9); color: #0a3a4a;
-    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 999px;
-  }
-  .card .body{ padding: 20px; }
-  .card h3{ font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-  .card p{ color: var(--ink-dim); font-size: 13.5px; line-height: 1.6; }
-  .card .stack{ margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .card .stack span{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; color: var(--ink-dim);
-    border: 1px solid var(--line); padding: 3px 8px; border-radius: 999px;
-  }
-
-  /* Skills */
-  .skills{
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px; margin-top: 40px;
-  }
-  .skill{
-    background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 22px;
-  }
-  .skill .top{ display:flex; align-items:center; gap: 12px; margin-bottom: 14px; }
-  .skill .ico{
-    width: 38px; height: 38px; border-radius: 10px;
+  .logo-mark{
+    width: 34px; height: 34px; border-radius: 9px;
     background: linear-gradient(135deg, var(--accent), #f59e0b);
-    display:flex; align-items:center; justify-content:center;
     color: #0a3a4a;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px;
+    box-shadow: 0 6px 16px -4px rgba(240,196,25,.4);
   }
-  .skill h4{ font-size: 15px; font-weight: 700; }
-  .bar{ height: 6px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
-  .bar i{ display:block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; width: 0; transition: width 1.4s ease; }
+  .nav-links{
+    display: flex; align-items: center; gap: 6px;
+    list-style: none;
+  }
+  .nav-links a{
+    display: inline-block;
+    padding: 8px 14px;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-dim);
+    border-radius: 8px;
+    transition: color .2s ease, background .2s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active{ color: var(--ink); background: rgba(255,255,255,.06); }
 
-  /* Timeline */
-  .timeline{ margin-top: 40px; position: relative; padding-left: 28px; }
-  .timeline::before{
-    content:""; position:absolute; left: 8px; top: 6px; bottom: 6px; width: 2px;
-    background: linear-gradient(180deg, var(--accent), transparent);
-  }
-  .tl-item{ position: relative; padding: 0 0 26px 14px; }
-  .tl-item::before{
-    content:""; position:absolute; left: -25px; top: 6px; width: 12px; height: 12px;
-    border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(240,196,25,.18);
-  }
-  .tl-item .when{ font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); margin-bottom: 4px; }
-  .tl-item h4{ font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .tl-item p{ color: var(--ink-dim); font-size: 13.5px; line-height: 1.6; }
-
-  /* Contact */
-  .contact-cta{
-    margin-top: 40px;
-    background: linear-gradient(135deg, #0a3a4a, #1a5a72);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 40px;
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  .contact-cta::before{
-    content:""; position:absolute; inset:0;
-    background:
-      radial-gradient(circle at 10% 10%, rgba(240,196,25,.18), transparent 40%),
-      radial-gradient(circle at 90% 90%, rgba(91,192,235,.18), transparent 40%);
-  }
-  .contact-cta *{ position: relative; }
-  .contact-cta h3{
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 3vw, 34px);
-    font-weight: 800; margin-bottom: 10px;
-  }
-  .contact-cta p{ color: var(--ink-dim); max-width: 540px; margin: 0 auto 22px; line-height: 1.6; }
-  .contact-cta .btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 14px;
+  .nav-cta{
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 18px; border-radius: 999px;
+    background: var(--accent); color: #0a3a4a;
+    font-size: 14px; font-weight: 600;
     transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: 0 8px 20px -6px rgba(240,196,25,.4);
   }
-  .btn-primary{ background: var(--accent); color: #0a3a4a; box-shadow: 0 10px 24px -6px rgba(240,196,25,.5); }
-  .btn-primary:hover{ transform: translateY(-2px); }
-  .btn-ghost{ border: 1px solid var(--line); color: #fff; }
-  .btn-ghost:hover{ background: rgba(255,255,255,.08); }
+  .nav-cta:hover{ transform: translateY(-1px); }
 
-  /* Footer */
-  footer{
-    margin-top: 100px; padding: 40px 32px;
-    border-top: 1px solid var(--line);
-    text-align: center; color: var(--ink-dim); font-size: 13px;
+  .menu-btn{
+    display: none;
+    width: 40px; height: 40px; border-radius: 8px;
+    background: rgba(255,255,255,.06);
+    align-items: center; justify-content: center;
   }
-  footer .socials{ display:flex; gap:14px; justify-content:center; margin-top: 14px; }
-  footer .socials a{
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,.06); border: 1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    transition: background .2s ease, transform .2s ease;
-  }
-  footer .socials a:hover{ background: var(--accent); color: #0a3a4a; transform: translateY(-3px); }
-  footer .socials svg{ width: 16px; height: 16px; }
-
-  /* ================= ABOUT / PHOTO ================= */
-  .about-wrap{
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 50px;
-    align-items: center;
-    margin-top: 30px;
-  }
-  .about-photo{
+  .menu-btn span{
+    display: block; width: 18px; height: 2px; background: #fff;
     position: relative;
-    width: 320px; height: 380px;
-    border-radius: 24px;
-    overflow: hidden;
   }
-  .about-photo img{
-    width: 100%; height: 100%;
-    object-fit: cover;
-    border-radius: 24px;
-    filter: contrast(1.05) saturate(1.05);
-    transition: transform .5s ease;
+  .menu-btn span::before,
+  .menu-btn span::after{
+    content:""; position: absolute; left: 0; width: 18px; height: 2px; background: #fff;
   }
-  .about-photo:hover img{ transform: scale(1.04); }
-  .photo-ring{
-    position: absolute; inset: -8px;
-    border: 2px solid transparent;
-    border-radius: 28px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2)) border-box;
-    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none;
+  .menu-btn span::before{ top: -6px; }
+  .menu-btn span::after{ top: 6px; }
+
+  /* mobile menu */
+  @media (max-width: 820px){
+    .menu-btn{ display: flex; }
+    .nav-links{
+      position: absolute; top: 100%; left: 16px; right: 16px;
+      flex-direction: column; align-items: stretch;
+      background: rgba(7,42,54,.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 8px;
+      transform: translateY(-10px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .nav-links.open{ opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nav-links a{ padding: 12px 14px; }
+    .nav-cta{ display: none; }
   }
-  .photo-badge{
-    position: absolute; bottom: 16px; left: 16px; right: 16px;
-    background: rgba(10,58,74,.85);
-    backdrop-filter: blur(8px);
+
+  /* ====================================================
+     HERO
+     ==================================================== */
+  .hero{
+    padding: 160px 0 100px;
+    position: relative;
+  }
+  .hero-inner{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-greeting{
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(255,255,255,.05);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 14px;
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 600;
-    color: #fff;
+    font-size: 13px; color: var(--ink-dim);
   }
-  .photo-badge .dot{
+  .hero-greeting .dot{
     width: 8px; height: 8px; border-radius: 50%;
-    background: #22c55e; box-shadow: 0 0 10px #22c55e;
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
     animation: pulse 2s ease-in-out infinite;
   }
   @keyframes pulse{
     0%,100%{ opacity: 1; transform: scale(1); }
     50%{ opacity: .6; transform: scale(.85); }
   }
-  .info-grid{
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 10px 18px; margin-top: 24px;
+  .hero h1{
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(40px, 5.5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin: 18px 0 18px;
   }
-  .info{
-    display: flex; flex-direction: column;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
+  .hero h1 .accent{ color: var(--accent); font-style: italic; }
+  .hero .role{
+    font-size: 18px; color: var(--ink-dim);
+    margin-bottom: 24px;
+    max-width: 540px;
   }
-  .info span{
-    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--ink-dim); margin-bottom: 4px;
+  .hero .role b{ color: #fff; font-weight: 600; }
+  .hero-cta{
+    display: flex; gap: 12px; flex-wrap: wrap;
+    margin-top: 28px;
   }
-  .info b{ font-size: 14px; font-weight: 600; color: #fff; word-break: break-word; }
-  @media (max-width: 820px){
-    .about-wrap{ grid-template-columns: 1fr; gap: 30px; }
-    .about-photo{ margin: 0 auto; width: 260px; height: 310px; }
-    .info-grid{ grid-template-columns: 1fr; }
+  .btn{
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px; border-radius: 999px;
+    font-weight: 600; font-size: 14px;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    white-space: nowrap;
   }
+  .btn-primary{
+    background: var(--accent); color: #0a3a4a;
+    box-shadow: 0 10px 24px -6px rgba(240,196,25,.4);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 28px -6px rgba(240,196,25,.5); }
+  .btn-ghost{
+    border: 1px solid var(--line-strong);
+    color: #fff;
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,.06); }
+  .btn svg{ width: 16px; height: 16px; }
 
-  /* ================= ANIMATIONS ================= */
+  .hero-meta{
+    display: flex; flex-wrap: wrap; gap: 24px 32px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .hero-meta .item{
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--ink-dim);
+  }
+  .hero-meta .item svg{ width: 16px; height: 16px; color: var(--accent-2); }
+  .hero-meta .item b{ color: #fff; font-weight: 500; }
+
+  /* hero photo */
+  .hero-photo{
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    aspect-ratio: 4/5;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .hero-photo img{
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .hero-photo::before{
+    content:""; position: absolute; inset: -2px;
+    border-radius: calc(var(--radius-lg) + 2px);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    z-index: -1;
+  }
+  .hero-photo .float-card{
+    position: absolute;
+    background: rgba(7,42,54,.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  .hero-photo .float-card.fc-1{
+    top: 24px; left: -24px;
+    animation: float-y 6s ease-in-out infinite;
+  }
+  .hero-photo .float-card.fc-2{
+    bottom: 32px; right: -24px;
+    animation: float-y 6s ease-in-out infinite -3s;
+  }
+  .float-card .ico{
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #f59e0b);
+    color: #0a3a4a;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .float-card.fc-2 .ico{ background: linear-gradient(135deg, var(--accent-2), #0a3a4a); color: #fff; }
+  .float-card b{ display: block; font-size: 14px; }
+  .float-card span{ color: var(--ink-mute); font-size: 12px; }
+
   @keyframes float-y{
     0%,100%{ transform: translateY(0); }
     50%{ transform: translateY(-10px); }
   }
-  .floating-page{ animation: float-y 6s ease-in-out infinite; }
-  .floating-page.fp-right{ animation-delay: -2s; }
-  .floating-page.fp-left{ animation-delay: -4s; }
 
-  @keyframes fade-up{
-    from{ opacity: 0; transform: translateY(20px); }
-    to{ opacity: 1; transform: translateY(0); }
+  @media (max-width: 820px){
+    .hero{ padding: 130px 0 60px; }
+    .hero-inner{ grid-template-columns: 1fr; gap: 40px; }
+    .hero-photo{ max-width: 320px; }
+    .hero-photo .fc-1{ left: -8px; }
+    .hero-photo .fc-2{ right: -8px; }
   }
-  .reveal{ opacity: 0; }
-  .reveal.in{ animation: fade-up .8s ease forwards; }
 
-  /* ================= RESPONSIVE ================= */
-  @media (max-width: 900px){
-    .floating-page{ display: none; }
-    .stage{ padding: 0 18px 40px; }
+  /* ====================================================
+     ABOUT
+     ==================================================== */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: start;
   }
+  .about-photo{
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    max-width: 380px;
+  }
+  .about-photo img{ width: 100%; height: 100%; object-fit: cover; }
+  .about-text p{ color: var(--ink-dim); margin-bottom: 16px; line-height: 1.75; }
+  .about-text p b{ color: #fff; font-weight: 600; }
+  .info-grid{
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 28px;
+  }
+  .info{
+    background: rgba(10,58,74,.4);
+    padding: 16px 18px;
+  }
+  .info span{
+    display: block;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 6px;
+  }
+  .info b{ font-size: 14px; font-weight: 500; color: #fff; word-break: break-word; }
+
+  @media (max-width: 820px){
+    .about-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .about-photo{ margin: 0 auto; }
+    .info-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ====================================================
+     SKILLS
+     ==================================================== */
+  .skills-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .skill-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .skill-card:hover{
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    background: var(--card-hover);
+  }
+  .skill-card .head{
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 18px;
+  }
+  .skill-card .ico{
+    width: 44px; height: 44px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    color: #0a3a4a;
+  }
+  .skill-card h3{ font-size: 17px; font-weight: 600; }
+  .skill-card .level{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+  .bar{ height: 6px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
+  .bar i{
+    display: block; height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 999px;
+    width: 0;
+    transition: width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .skill-card .topics{
+    margin-top: 16px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .skill-card .topics span{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-dim);
+    border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 999px;
+  }
+
+  /* ====================================================
+     PROJECTS
+     ==================================================== */
+  .projects-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+  }
+  .project{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .project:hover{
+    transform: translateY(-6px);
+    border-color: var(--line-strong);
+  }
+  .project .thumb{
+    aspect-ratio: 16/10;
+    background: linear-gradient(135deg, #0a3a4a, #1a5a72);
+    position: relative; overflow: hidden;
+  }
+  .project .thumb::before{
+    content:""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(91,192,235,.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,192,235,.18) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: .4;
+  }
+  .project .thumb .tag{
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(255,255,255,.92); color: #0a3a4a;
+    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px;
+  }
+  .project .thumb .links{
+    position: absolute; bottom: 14px; right: 14px;
+    display: flex; gap: 8px;
+  }
+  .project .thumb .links a{
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,.92); color: #0a3a4a;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .2s ease;
+  }
+  .project .thumb .links a:hover{ transform: scale(1.1); }
+  .project .thumb .links svg{ width: 14px; height: 14px; }
+  .project .body{ padding: 24px; }
+  .project h3{ font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+  .project p{ color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+  .project .stack{ display: flex; flex-wrap: wrap; gap: 6px; }
+  .project .stack span{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-dim);
+    border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 999px;
+  }
+
+  /* ====================================================
+     EXPERIENCE
+     ==================================================== */
+  .timeline{
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before{
+    content:""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+  .tl-item{
+    position: relative;
+    padding-bottom: 32px;
+  }
+  .tl-item:last-child{ padding-bottom: 0; }
+  .tl-item::before{
+    content:""; position: absolute; left: -32px; top: 8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--bg-1);
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 0 4px rgba(240,196,25,.15);
+  }
+  .tl-item .when{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .tl-item h4{ font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .tl-item p{ color: var(--ink-dim); font-size: 14.5px; line-height: 1.65; }
+  .tl-item p b{ color: #fff; font-weight: 500; }
+
+  /* ====================================================
+     CONTACT
+     ==================================================== */
+  .contact-wrap{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .contact-card{
+    background: linear-gradient(135deg, #0a3a4a 0%, #1a5a72 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  .contact-card::before{
+    content:""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(240,196,25,.18), transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(91,192,235,.18), transparent 40%);
+  }
+  .contact-card > *{ position: relative; }
+  .contact-card h3{
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800; margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .contact-card p{ color: var(--ink-dim); margin-bottom: 26px; line-height: 1.6; }
+  .contact-card .btns{ display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .contact-list{
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .contact-item{
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .contact-item:hover{
+    transform: translateX(4px);
+    border-color: var(--line-strong);
+    background: var(--card-hover);
+  }
+  .contact-item .ico{
+    width: 42px; height: 42px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #f59e0b);
+    color: #0a3a4a;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-item .ico svg{ width: 18px; height: 18px; }
+  .contact-item .meta{ flex: 1; min-width: 0; }
+  .contact-item .meta span{
+    display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 2px;
+  }
+  .contact-item .meta b{ font-size: 14.5px; font-weight: 500; word-break: break-word; }
+
+  @media (max-width: 820px){
+    .contact-wrap{ grid-template-columns: 1fr; }
+  }
+
+  /* ====================================================
+     FOOTER
+     ==================================================== */
+  footer{
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+  }
+  .footer-inner{
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  footer p{ font-size: 13px; color: var(--ink-mute); }
+  footer p b{ color: var(--ink); font-weight: 500; }
+  .socials{ display: flex; gap: 10px; }
+  .socials a{
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, transform .2s ease, color .2s ease;
+  }
+  .socials a:hover{ background: var(--accent); color: #0a3a4a; transform: translateY(-2px); }
+  .socials svg{ width: 16px; height: 16px; }
+
+  /* ====================================================
+     REVEAL ANIMATION
+     ==================================================== */
+  .reveal{ opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+
+  /* ====================================================
+     RESPONSIVE TWEAKS
+     ==================================================== */
   @media (max-width: 600px){
-    .hero{ padding: 60px 18px 20px; }
-    .monitor{ width: 100%; }
-    .screen-inner{ font-size: 10px; }
-    .bubble{ width: 22px; height: 22px; font-size: 11px; }
-    .bubble.s{ width: 16px; height: 16px; font-size: 9px; }
+    .container{ padding: 0 20px; }
+    .section{ padding: 70px 0; }
+    .section-head{ margin-bottom: 40px; }
+    .hero-meta{ gap: 16px 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <span class="eyebrow"><span class="dot"></span> Open to Opportunities</span>
-  <h1>
-    Bereket Asrat
-    <span class="sub">Computer Science Student · Bule Hora University · Building thoughtful software</span>
-  </h1>
-  <div class="meta">
-    <span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Addis Ababa, Ethiopia
-    </span>
-    <span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12a10 10 0 1 1-10-10"/><path d="M22 4 12 14l-3-3"/></svg>
-      Bule Hora University
-    </span>
-    <span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
-      0951266029
-    </span>
-    <span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      Year 3 · Class of 2027
-    </span>
+<!-- ====================================================
+     NAVBAR
+     ==================================================== -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark">B</span>
+      <span>Bereket Asrat</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:dhugaabarok@gmail.com" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+      Hire Me
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span></button>
   </div>
-</section>
+</nav>
 
-<!-- ================= STAGE ================= -->
-<section class="stage">
-
-  <!-- Floating page left -->
-  <div class="floating-page fp-left">
-    <div class="ribbon"></div>
-    <div class="avatar" style="background-image:url('profile.jpg'); background-size:cover; background-position:center; padding:0;"></div>
-    <div class="body">
-      <h3>Hi, I'm Bereket</h3>
-      <p>A third-year CS student at Bule Hora University. I love building clean, useful software and exploring how things work under the hood. Currently deepening my skills in C++ and Java.</p>
-    </div>
-  </div>
-
-  <!-- Floating page right -->
-  <div class="floating-page fp-right">
-    <div class="ribbon"></div>
-    <div class="avatar" style="background:linear-gradient(135deg,#f0c419,#f59e0b);">BA</div>
-    <div class="body">
-      <h3>Currently Learning</h3>
-      <p>Data Structures & Algorithms, OOP with C++ and Java, and modern web development with HTML, CSS, and JavaScript. Always shipping small projects to learn faster.</p>
-    </div>
-  </div>
-
-  <!-- Monitor -->
-  <div class="monitor">
-    <div class="bezel">
-      <div class="screen">
-        <div class="screen-inner">
-          <div class="left">
-            <div class="signature">
-              Bereket Asrat
-              <small>Computer Science · Year 3</small>
-            </div>
-
-            <div class="role">
-              Focused on
-              <b>Software Development</b>
-            </div>
-
-            <div class="contact">
-              <div><span class="l">email</span> &nbsp; dhugaabarok@gmail.com</div>
-              <div><span class="l">phone</span> &nbsp; 0951266029</div>
-              <div><span class="l">place</span> &nbsp; Addis Ababa, ET</div>
-              <div><span class="l">school</span> &nbsp; Bule Hora Univ.</div>
-            </div>
-
-            <a class="cta" href="#projects">View Projects →</a>
-          </div>
-
-          <div class="right">
-            <div class="bubble-cluster">
-              <div class="bubble" style="top:0; left:30%;">⌘</div>
-              <div class="bubble b" style="top:10px; left:60%;">{ }</div>
-              <div class="bubble c" style="top:40px; left:75%;">★</div>
-              <div class="bubble s" style="top:30px; left:20%;">→</div>
-              <div class="bubble" style="top:70px; left:45%; background:#fff;">λ</div>
-              <div class="bubble b s" style="top:80px; left:10%;">AI</div>
-              <div class="bubble c s" style="top:90px; left:88%;">⚙</div>
-              <div class="bubble" style="top:110px; left:65%;">🚀</div>
-              <div class="bubble b" style="top:120px; left:30%;">DB</div>
-            </div>
-
-            <div class="screen-figure">
-              <div class="head"></div>
-              <div class="body-shape"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="stand"></div>
-    <div class="base"></div>
-  </div>
-
-  <!-- Categories -->
-  <div class="categories">
-    <div class="cat" aria-label="Projects">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
-      <span class="tooltip">Projects</span>
-    </div>
-    <div class="cat" aria-label="Code">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg>
-      <span class="tooltip">Code</span>
-    </div>
-    <div class="cat" aria-label="Skills">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg>
-      <span class="tooltip">Skills</span>
-    </div>
-    <div class="cat" aria-label="Experience">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      <span class="tooltip">Experience</span>
-    </div>
-    <div class="cat" aria-label="Contact">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <span class="tooltip">Contact</span>
-    </div>
-  </div>
-
-  <!-- Upvote bar -->
-  <div class="upvote-bar">
-    <button class="upvote" id="upvoteBtn" aria-label="Upvote this portfolio">
-      <span class="avatar" style="background-image:url('profile.jpg'); background-size:cover; background-position:center;">BA</span>
-      <span class="label">Like this portfolio</span>
-      <span class="arrow" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 15 6-6 6 6"/></svg>
-      </span>
-      <span class="count" id="upvoteCount">0</span>
-    </button>
-  </div>
-</section>
-
-<!-- ================= PROJECTS ================= -->
-<!-- ================= ABOUT / PHOTO ================= -->
-<section class="section reveal" id="about">
-  <div class="about-wrap">
-    <div class="about-photo">
-      <img src="profile.jpg" alt="Bereket Asrat" />
-      <div class="photo-ring"></div>
-      <div class="photo-badge">
+<!-- ====================================================
+     HERO
+     ==================================================== -->
+<header class="hero" id="top">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <span class="hero-greeting">
         <span class="dot"></span>
-        Available for hire
+        Open to internships & junior roles
+      </span>
+      <h1>
+        Hi, I'm <span class="accent">Bereket</span>.<br>
+        I build software that works.
+      </h1>
+      <p class="role">
+        A third-year <b>Computer Science student</b> at Bule Hora University, based in Addis Ababa, Ethiopia. I write clean code in <b>C++</b>, <b>Java</b>, and modern web — focused on shipping things that solve real problems.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          See my work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+          Get in touch
+        </a>
       </div>
-    </div>
-    <div class="about-text">
-      <span class="label">About Me</span>
-      <h2>A CS student who loves to build</h2>
-      <p class="lead">I'm <b>Bereket Asrat</b>, a third-year Computer Science student at <b>Bule Hora University</b> based in Addis Ababa, Ethiopia. I'm passionate about writing clean code, learning new technologies, and building software that solves real problems.</p>
-      <p class="lead" style="margin-top:14px;">My core toolkit is <b>C++, Java, HTML, CSS, and JavaScript</b> — I enjoy the mix of low-level thinking and the creative side of web development. Outside of code, I love exploring new ideas, reading, and contributing to student communities on campus.</p>
-
-      <div class="info-grid">
-        <div class="info"><span>Name</span><b>Bereket Asrat</b></div>
-        <div class="info"><span>Email</span><b>dhugaabarok@gmail.com</b></div>
-        <div class="info"><span>Phone</span><b>0951266029</b></div>
-        <div class="info"><span>Location</span><b>Addis Ababa, ET</b></div>
-        <div class="info"><span>University</span><b>Bule Hora University</b></div>
-        <div class="info"><span>Year</span><b>3rd Year · CS</b></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section reveal" id="projects">
-  <span class="label">Selected Work</span>
-  <h2>Things I've built recently</h2>
-  <p class="lead">A mix of coursework and personal projects. Each one taught me something new — from algorithm design to shipping something people actually use.</p>
-
-  <div class="grid">
-    <article class="card">
-      <div class="thumb">
-        <span class="tag">C++</span>
-      </div>
-      <div class="body">
-        <h3>Student Grade Manager</h3>
-        <p>A console-based grade management system using OOP, file I/O, and STL containers. Handles hundreds of student records with sorting and search.</p>
-        <div class="stack">
-          <span>C++</span><span>STL</span><span>File I/O</span><span>OOP</span>
+      <div class="hero-meta">
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <span><b>Addis Ababa</b>, Ethiopia</span>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span><b>Bule Hora University</b></span>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12a10 10 0 1 1-10-10"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span><b>3rd Year</b> · Class of 2027</span>
         </div>
       </div>
-    </article>
+    </div>
 
-    <article class="card">
-      <div class="thumb">
-        <span class="tag">Java</span>
-      </div>
-      <div class="body">
-        <h3>Library Management System</h3>
-        <p>A desktop app to track books, members, and borrowing history. Built with Java Swing and a simple relational model for the data layer.</p>
-        <div class="stack">
-          <span>Java</span><span>Swing</span><span>OOP</span>
+    <div class="hero-photo">
+      <img src="profile.jpg" alt="Bereket Asrat" />
+      <div class="float-card fc-1">
+        <div class="ico">C++</div>
+        <div>
+          <b>Algorithms & DSA</b>
+          <span>Daily practice</span>
         </div>
       </div>
-    </article>
-
-    <article class="card">
-      <div class="thumb">
-        <span class="tag">Web</span>
-      </div>
-      <div class="body">
-        <h3>Personal Portfolio Website</h3>
-        <p>The site you're looking at right now — designed and built from scratch with semantic HTML, modern CSS, and a touch of vanilla JavaScript.</p>
-        <div class="stack">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span>
+      <div class="float-card fc-2">
+        <div class="ico">{ }</div>
+        <div>
+          <b>Web Dev</b>
+          <span>HTML · CSS · JS</span>
         </div>
       </div>
-    </article>
+    </div>
+  </div>
+</header>
 
-    <article class="card">
-      <div class="thumb">
-        <span class="tag">Algorithms</span>
+<!-- ====================================================
+     ABOUT
+     ==================================================== -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">About</span>
+      <h2>A developer in the making.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="profile.jpg" alt="Bereket Asrat" />
       </div>
-      <div class="body">
-        <h3>DSA Practice Repository</h3>
-        <p>A growing collection of data structures and algorithm problems solved in C++ and Java — sort, search, trees, graphs, and dynamic programming.</p>
-        <div class="stack">
-          <span>C++</span><span>Java</span><span>Algorithms</span>
+      <div class="about-text reveal">
+        <p>I'm <b>Bereket Asrat</b>, a third-year Computer Science student at <b>Bule Hora University</b>, currently based in Addis Ababa, Ethiopia. I'm drawn to the mix of problem-solving and craft that software demands — and I'm at the stage of my journey where I want to build more, learn faster, and work alongside people who care about doing things well.</p>
+        <p>My toolkit centers on <b>C++</b> for systems thinking and competitive programming, <b>Java</b> for object-oriented design and applications, and the modern web stack — <b>HTML, CSS, and JavaScript</b> — for things people actually interact with. I care about clean code, clear interfaces, and shipping small projects often.</p>
+        <p>Outside of code, I read, explore new ideas, and stay curious about how the technology around us actually works.</p>
+
+        <div class="info-grid">
+          <div class="info"><span>Name</span><b>Bereket Asrat</b></div>
+          <div class="info"><span>Email</span><b>dhugaabarok@gmail.com</b></div>
+          <div class="info"><span>Phone</span><b>0951266029</b></div>
+          <div class="info"><span>Location</span><b>Addis Ababa, ET</b></div>
+          <div class="info"><span>University</span><b>Bule Hora University</b></div>
+          <div class="info"><span>Focus</span><b>Software Development</b></div>
         </div>
       </div>
-    </article>
-  </div>
-</section>
-
-<!-- ================= SKILLS ================= -->
-<section class="section reveal" id="skills">
-  <span class="label">Toolkit</span>
-  <h2>Languages & tools I reach for</h2>
-  <p class="lead">I'm a generalist who loves learning the right tool for the problem. Here's a snapshot of what I'm comfortable with today.</p>
-
-  <div class="skills">
-    <div class="skill">
-      <div class="top">
-        <div class="ico">⌘</div>
-        <h4>C++</h4>
-      </div>
-      <div class="bar"><i data-w="90%"></i></div>
-      <p style="margin-top:10px; font-size:12px; color:var(--ink-dim);">OOP · STL · Data Structures · Algorithms</p>
-    </div>
-    <div class="skill">
-      <div class="top">
-        <div class="ico" style="background:linear-gradient(135deg,#5bc0eb,#0a3a4a); color:#fff;">J</div>
-        <h4>Java</h4>
-      </div>
-      <div class="bar"><i data-w="85%"></i></div>
-      <p style="margin-top:10px; font-size:12px; color:var(--ink-dim);">OOP · Collections · Exception Handling · Basic GUI</p>
-    </div>
-    <div class="skill">
-      <div class="top">
-        <div class="ico" style="background:linear-gradient(135deg,#f97316,#0a3a4a); color:#fff;">&lt;/&gt;</div>
-        <h4>HTML & CSS</h4>
-      </div>
-      <div class="bar"><i data-w="88%"></i></div>
-      <p style="margin-top:10px; font-size:12px; color:var(--ink-dim);">Semantic HTML · Flexbox & Grid · Responsive Design</p>
-    </div>
-    <div class="skill">
-      <div class="top">
-        <div class="ico" style="background:linear-gradient(135deg,#f0c419,#0a3a4a); color:#0a3a4a;">JS</div>
-        <h4>JavaScript</h4>
-      </div>
-      <div class="bar"><i data-w="80%"></i></div>
-      <p style="margin-top:10px; font-size:12px; color:var(--ink-dim);">ES6+ · DOM Manipulation · Async · Fetch API</p>
     </div>
   </div>
 </section>
 
-<!-- ================= EXPERIENCE ================= -->
-<section class="section reveal" id="experience">
-  <span class="label">Journey</span>
-  <h2>Experience & education</h2>
-  <p class="lead">A timeline of what I've been up to — internships, teaching, and a few things I'm proud of.</p>
+<!-- ====================================================
+     SKILLS
+     ==================================================== -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">Skills</span>
+      <h2>Languages I work in.</h2>
+      <p>My core stack — the languages I reach for when I'm building something. Always learning, always shipping small things to get better.</p>
+    </div>
 
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="when">2023 — Present</div>
-      <h4>B.Sc. Computer Science · Bule Hora University</h4>
-      <p>Third-year student maintaining strong academics. Core coursework: Data Structures, Algorithms, OOP, Database Systems, Web Development, Discrete Mathematics.</p>
-    </div>
-    <div class="tl-item">
-      <div class="when">Ongoing</div>
-      <h4>Personal Projects & Self-Study</h4>
-      <p>Building small projects in C++ and Java to solidify OOP and DSA concepts. Learning modern web development with HTML, CSS, and JavaScript.</p>
-    </div>
-    <div class="tl-item">
-      <div class="when">Languages</div>
-      <h4>Programming Stack</h4>
-      <p>Daily drivers: <b>C++</b> for algorithms and systems thinking, <b>Java</b> for OOP and applications, <b>HTML/CSS/JavaScript</b> for the web.</p>
-    </div>
-    <div class="tl-item">
-      <div class="when">Currently</div>
-      <h4>Looking For</h4>
-      <p>Internship opportunities and entry-level roles where I can learn from experienced engineers and contribute to real-world projects.</p>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="head">
+          <div class="ico" style="background:linear-gradient(135deg,#f0c419,#f59e0b);">C++</div>
+          <div>
+            <h3>C++</h3>
+            <div class="level">Strong · primary language</div>
+          </div>
+        </div>
+        <div class="bar"><i data-w="90%"></i></div>
+        <div class="topics">
+          <span>OOP</span><span>STL</span><span>Pointers</span><span>DSA</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="head">
+          <div class="ico" style="background:linear-gradient(135deg,#f97316,#dc2626);">J</div>
+          <div>
+            <h3>Java</h3>
+            <div class="level">Confident · building projects</div>
+          </div>
+        </div>
+        <div class="bar"><i data-w="85%"></i></div>
+        <div class="topics">
+          <span>OOP</span><span>Collections</span><span>Exceptions</span><span>Swing</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="head">
+          <div class="ico" style="background:linear-gradient(135deg,#e34c26,#f06529);">&lt;/&gt;</div>
+          <div>
+            <h3>HTML & CSS</h3>
+            <div class="level">Solid · daily use</div>
+          </div>
+        </div>
+        <div class="bar"><i data-w="88%"></i></div>
+        <div class="topics">
+          <span>Semantic HTML</span><span>Flexbox</span><span>Grid</span><span>Responsive</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="head">
+          <div class="ico" style="background:linear-gradient(135deg,#f0db4f,#323330); color:#323330;">JS</div>
+          <div>
+            <h3>JavaScript</h3>
+            <div class="level">Growing · shipping small projects</div>
+          </div>
+        </div>
+        <div class="bar"><i data-w="80%"></i></div>
+        <div class="topics">
+          <span>ES6+</span><span>DOM</span><span>Async</span><span>Fetch API</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
-<section class="section reveal" id="contact">
-  <span class="label">Say hello</span>
-  <h2>Let's build something together</h2>
-  <p class="lead">Whether it's an internship, a collaboration, or just a chat about code — my inbox and phone are open.</p>
+<!-- ====================================================
+     PROJECTS
+     ==================================================== -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">Selected Work</span>
+      <h2>Things I've built.</h2>
+      <p>A few projects that taught me the most — coursework, personal builds, and small experiments. Each one is a step forward.</p>
+    </div>
 
-  <div class="contact-cta">
-    <h3>Available for Opportunities</h3>
-    <p>I'm a third-year CS student actively looking for internships and entry-level roles. I'd love to hear about what you're working on.</p>
-    <div class="btns">
-      <a class="btn btn-primary" href="mailto:dhugaabarok@gmail.com">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
-        Email me
-      </a>
-      <a class="btn btn-ghost" href="tel:+251951266029">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
-        0951266029
-      </a>
-      <a class="btn btn-ghost" href="https://github.com" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-        GitHub
-      </a>
+    <div class="projects-grid">
+      <article class="project reveal">
+        <div class="thumb">
+          <span class="tag">C++</span>
+          <div class="links">
+            <a href="#" aria-label="Code"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+          </div>
+        </div>
+        <div class="body">
+          <h3>Student Grade Manager</h3>
+          <p>Console-based grade management system using OOP, file I/O, and STL containers. Handles hundreds of student records with sorting and search.</p>
+          <div class="stack">
+            <span>C++</span><span>STL</span><span>File I/O</span><span>OOP</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="thumb">
+          <span class="tag">Java</span>
+          <div class="links">
+            <a href="#" aria-label="Code"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+          </div>
+        </div>
+        <div class="body">
+          <h3>Library Management System</h3>
+          <p>Desktop app to track books, members, and borrowing history. Built with Java Swing and a clean relational model for the data layer.</p>
+          <div class="stack">
+            <span>Java</span><span>Swing</span><span>OOP</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="thumb">
+          <span class="tag">Web</span>
+          <div class="links">
+            <a href="#" aria-label="Code"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+          </div>
+        </div>
+        <div class="body">
+          <h3>Personal Portfolio Website</h3>
+          <p>The site you're looking at — designed and built from scratch with semantic HTML, modern CSS, and vanilla JavaScript.</p>
+          <div class="stack">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="thumb">
+          <span class="tag">Algorithms</span>
+          <div class="links">
+            <a href="#" aria-label="Code"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+          </div>
+        </div>
+        <div class="body">
+          <h3>DSA Practice Repository</h3>
+          <p>A growing collection of data structures and algorithm problems solved in C++ and Java — sort, search, trees, graphs, dynamic programming.</p>
+          <div class="stack">
+            <span>C++</span><span>Java</span><span>Algorithms</span>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
+<!-- ====================================================
+     EXPERIENCE
+     ==================================================== -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">Journey</span>
+      <h2>Where I've been.</h2>
+      <p>A timeline of the work, study, and self-driven projects that have shaped me as a developer so far.</p>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="when">2023 — Present</div>
+        <h4>B.Sc. Computer Science · Bule Hora University</h4>
+        <p>Third-year student maintaining strong academics. Core coursework: <b>Data Structures, Algorithms, OOP, Database Systems, Web Development, Discrete Mathematics</b>.</p>
+      </div>
+      <div class="tl-item">
+        <div class="when">Ongoing</div>
+        <h4>Personal Projects & Self-Study</h4>
+        <p>Building small but real projects in <b>C++</b> and <b>Java</b> to solidify OOP and DSA concepts. Practicing modern web development with <b>HTML, CSS, and JavaScript</b>.</p>
+      </div>
+      <div class="tl-item">
+        <div class="when">Languages</div>
+        <h4>Programming Stack</h4>
+        <p>Daily drivers: <b>C++</b> for algorithms and systems thinking, <b>Java</b> for OOP and applications, <b>HTML / CSS / JavaScript</b> for the web.</p>
+      </div>
+      <div class="tl-item">
+        <div class="when">Currently</div>
+        <h4>Looking For</h4>
+        <p>Internship opportunities and entry-level roles where I can learn from experienced engineers and contribute to real-world projects.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     CONTACT
+     ==================================================== -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">Contact</span>
+      <h2>Let's work together.</h2>
+      <p>Whether it's an internship, a collaboration, or just a chat about code — I'd love to hear from you.</p>
+    </div>
+
+    <div class="contact-wrap">
+      <div class="contact-card reveal">
+        <h3>Available for new opportunities</h3>
+        <p>I'm a third-year CS student actively looking for internships and entry-level roles. If you're working on something interesting, let's talk.</p>
+        <div class="btns">
+          <a href="mailto:dhugaabarok@gmail.com" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+            Send an email
+          </a>
+          <a href="tel:+251951266029" class="btn btn-ghost">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+            Call me
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-list reveal">
+        <a href="mailto:dhugaabarok@gmail.com" class="contact-item">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg></div>
+          <div class="meta"><span>Email</span><b>dhugaabarok@gmail.com</b></div>
+        </a>
+        <a href="tel:+251951266029" class="contact-item">
+          <div class="ico" style="background:linear-gradient(135deg,#22c55e,#16a34a);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="meta"><span>Phone</span><b>0951266029</b></div>
+        </a>
+        <div class="contact-item" style="cursor:default;">
+          <div class="ico" style="background:linear-gradient(135deg,#5bc0eb,#0a3a4a);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div class="meta"><span>Location</span><b>Addis Ababa, Ethiopia</b></div>
+        </div>
+        <div class="contact-item" style="cursor:default;">
+          <div class="ico" style="background:linear-gradient(135deg,#a855f7,#0a3a4a);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12a10 10 0 1 1-10-10"/><path d="M22 4 12 14l-3-3"/></svg></div>
+          <div class="meta"><span>University</span><b>Bule Hora University</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     FOOTER
+     ==================================================== -->
 <footer>
-  <div>© 2026 Bereket Asrat · Crafted with care · Last updated June 2026</div>
-  <div class="socials">
-    <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
-    <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 0 0-5 5v14a5 5 0 0 0 5 5h14a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM8 19H5V8h3v11zM6.5 6.7a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM20 19h-3v-5.6c0-1.4-.5-2.4-1.7-2.4-1 0-1.6.7-1.9 1.3-.1.2-.1.5-.1.8V19h-3V8h3v1.3a3 3 0 0 1 2.7-1.5c2 0 3.5 1.3 3.5 4.1V19z"/></svg></a>
-    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-    <a href="mailto:dhugaabarok@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg></a>
+  <div class="container footer-inner">
+    <p>© 2026 <b>Bereket Asrat</b> · Crafted with care.</p>
+    <div class="socials">
+      <a href="mailto:dhugaabarok@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg></a>
+      <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.94.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.36-5.25 5.65.41.35.78 1.04.78 2.1v3.11c0 .3.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5a5 5 0 0 0-5 5v14a5 5 0 0 0 5 5h14a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM8 19H5V8h3v11zM6.5 6.7a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM20 19h-3v-5.6c0-1.4-.5-2.4-1.7-2.4-1 0-1.6.7-1.9 1.3-.1.2-.1.5-.1.8V19h-3V8h3v1.3a3 3 0 0 1 2.7-1.5c2 0 3.5 1.3 3.5 4.1V19z"/></svg></a>
+      <a href="tel:+251951266029" aria-label="Phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg></a>
+    </div>
   </div>
 </footer>
 
 <script>
-  // ===== Upvote counter =====
-  const btn = document.getElementById('upvoteBtn');
-  const counter = document.getElementById('upvoteCount');
-  let count = 0;
-  btn.addEventListener('click', () => {
-    count++;
-    counter.textContent = count;
-    btn.style.transform = 'scale(1.08)';
-    setTimeout(() => btn.style.transform = '', 180);
-  });
+  // ===== Sticky navbar background on scroll =====
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-  // ===== Reveal on scroll =====
+  // ===== Mobile menu toggle =====
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => navLinks.classList.remove('open'))
+  );
+
+  // ===== Active link on scroll =====
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const links = navLinks.querySelectorAll('a');
+  const setActive = () => {
+    const y = window.scrollY + 120;
+    let current = '';
+    sections.forEach(s => {
+      if (s.offsetTop <= y) current = s.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  };
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+
+  // ===== Reveal on scroll + animate skill bars =====
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('in');
-        // Animate skill bars when they appear
         e.target.querySelectorAll('.bar i').forEach(bar => {
           bar.style.width = bar.dataset.w || '0%';
         });
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // ===== Smooth scroll for cat icons =====
-  document.querySelectorAll('.cat').forEach(cat => {
-    cat.addEventListener('click', () => {
-      const label = cat.querySelector('.tooltip').textContent.toLowerCase();
-      const map = { projects: '#projects', code: '#projects', skills: '#skills', experience: '#experience', contact: '#contact' };
-      const target = document.querySelector(map[label]);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
 </script>
 
 </body>
